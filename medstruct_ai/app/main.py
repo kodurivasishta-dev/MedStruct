@@ -8,7 +8,8 @@ import streamlit as st
 
 from core.audio.transcriber import transcribe_audio
 from core.vision.extractor import extract_clinical_data_from_image
-from medstruct_ai.core.schemas import ClinicalInsight, PatientRecord
+from medstruct_ai.core.parser import parse_lab_metrics
+from medstruct_ai.core.schemas import ClinicalInsight, LabMetric, PatientRecord
 from medstruct_ai.db.database import get_patient_record, init_db, insert_patient_record
 
 st.set_page_config(page_title="MedStruct AI", layout="wide")
@@ -136,6 +137,17 @@ elif page == "Upload":
                         dob = st.date_input("Date of Birth", value=date(1980, 1, 1))
                         visit_date = st.date_input("Visit Date", value=date.today())
 
+                    lab_metrics = parse_lab_metrics(extracted)
+                    if lab_metrics:
+                        st.info(
+                            f"Detected {len(lab_metrics)} lab metric(s)."
+                        )
+                        for m in lab_metrics:
+                            flag = "⚠️" if m.is_abnormal else "✅"
+                            st.caption(
+                                f"{flag} {m.name}: {m.value} {m.unit}"
+                            )
+
                     if st.button("Save Extraction"):
                         if not first_name or not last_name:
                             st.error("First name and last name are required.")
@@ -148,13 +160,14 @@ elif page == "Upload":
                                     ClinicalInsight(
                                         visit_date=visit_date,
                                         notes=extracted,
+                                        lab_metrics=lab_metrics,
                                     )
                                 ],
                             )
                             pid = insert_patient_record(record)
                             st.success(
                                 f"Saved extraction for {first_name} {last_name} "
-                                f"(Patient ID: {pid})"
+                                f"(Patient ID: {pid}) — {len(lab_metrics)} lab metrics"
                             )
             except Exception as e:
                 st.error(f"Extraction failed: {e}")

@@ -36,7 +36,7 @@
 
 - [ ] T010 VLM Image Extraction: Engineer prompts and pipeline to pass prescription images/PDFs to local VLM for parsing. (Nikhil)
 - [x] T011 UI File Uploaders: Implement Streamlit components for drag-and-drop of PDFs and images in `app/main.py`. (Vasishta)
-- [ ] T012 Link parsed LabMetrics to SQLite lab_metrics schema.
+- [x] T012 Link parsed LabMetrics to SQLite lab_metrics schema.
 
 ---
 
