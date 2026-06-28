@@ -10,7 +10,7 @@
 
 - [ ] T001 Cache Models & Setup Ollama: Download Q4 GGUF models and configure local Ollama instance with custom Modelfile. (Nikhil)
 - [ ] T002 Compile whisper.cpp: Clone and build whisper.cpp locally with CPU optimization flags (AVX2). (Nikhil)
-- [ ] T003 Scaffold App & DB Init: Create Streamlit app shell and SQLite schema creation scripts (`scripts/init_db.py`). (Vasishta)
+- [x] T003 Scaffold App & DB Init: Create Streamlit app shell and SQLite schema creation scripts (`scripts/init_db.py`). (Vasishta)
 
 ---
 
@@ -18,8 +18,8 @@
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
-- [ ] T004 [P] Pydantic Schema Layer: Define core data models (PatientRecord, LabMetric) using Pydantic v2 in `core/schemas.py`. (Vasishta)
-- [ ] T005 [P] SQLite Mapping: Write functions to map validated Pydantic objects to SQLite table inserts in `db/database.py`. (Vasishta)
+- [x] T004 [P] Pydantic Schema Layer: Define core data models (PatientRecord, LabMetric) using Pydantic v2 in `core/schemas.py`. (Vasishta)
+- [x] T005 [P] SQLite Mapping: Write functions to map validated Pydantic objects to SQLite table inserts in `db/database.py`. (Vasishta)
 - [ ] T006 LLM Structural Constraint: Implement retry logic/constrained generation so LLM outputs match Pydantic schemas in `core/inference.py`. (Nikhil)
 
 ---

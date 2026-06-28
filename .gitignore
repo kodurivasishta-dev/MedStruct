@@ -1,3 +1,8 @@
+.gitignore
+__pycache__/
+*.pyc
+data/
+=======
 # Ignore compiled C++ tools and sub-repositories
 core/audio/whisper.cpp/
 *.so
@@ -16,3 +21,4 @@ __pycache__/
 
 # OS files
 .DS_Store
+>>>>>>> .gitignore
