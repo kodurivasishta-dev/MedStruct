@@ -50,7 +50,7 @@
 ## Phase 6: User Story 4 - Semantic Search (P3)
 
 - [x] T015 Semantic Search Integration: Build a local SQLite search capability to query patient history and meds in `db/queries.py`. (Vasishta)
-- [ ] T016 Patient Timeline Dashboard: Develop Streamlit UI for visual timeline of patient visits and metrics integrating the search. (Vasishta)
+- [x] T016 Patient Timeline Dashboard: Develop Streamlit UI for visual timeline of patient visits and metrics integrating the search. (Vasishta)
 
 ---
 
