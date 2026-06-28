@@ -11,7 +11,8 @@ from core.vision.extractor import extract_clinical_data_from_image
 from medstruct_ai.app.components.charts import render_dashboard
 from medstruct_ai.core.parser import parse_lab_metrics
 from medstruct_ai.core.schemas import ClinicalInsight, LabMetric, PatientRecord
-from medstruct_ai.db.database import get_patient_record, init_db, insert_patient_record
+from medstruct_ai.db.database import get_all_patients, get_patient_record, init_db, insert_patient_record
+from medstruct_ai.db.queries import search_patients
 
 st.set_page_config(page_title="MedStruct AI", layout="wide")
 
@@ -28,7 +29,32 @@ if page == "Dashboard":
 
 elif page == "Patient Records":
     st.header("Patient Records")
-    st.info("Patient list and timeline view will appear here.")
+
+    search_query = st.text_input("Search patients by name, diagnosis, medication, or notes")
+    if search_query:
+        results = search_patients(search_query)
+        if results:
+            st.success(f"Found {len(results)} result(s)")
+            for r in results:
+                with st.expander(
+                    f"{r['patient_name']} — Visit: {r['visit_date']}"
+                    f"{'  ⚠️ ' + r['overall_risk'] if r['overall_risk'] else ''}"
+                ):
+                    st.caption(f"Diagnoses: {r['diagnoses']}")
+                    st.caption(f"Medications: {r['medications']}")
+                    if r['notes']:
+                        st.text_area("Notes", r['notes'], height=100, disabled=True)
+        else:
+            st.warning("No results found.")
+
+    st.divider()
+    st.subheader("All Patients")
+    patients = get_all_patients()
+    if patients:
+        for p in patients:
+            st.write(f"- {p['first_name']} {p['last_name']} (DOB: {p['dob']})")
+    else:
+        st.info("No patients yet.")
 
 elif page == "Upload":
     st.header("Upload Medical Data")

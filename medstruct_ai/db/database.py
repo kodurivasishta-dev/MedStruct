@@ -22,6 +22,10 @@ def init_db() -> None:
     conn = get_connection()
     try:
         conn.executescript("""
+            CREATE VIRTUAL TABLE IF NOT EXISTS search_fts USING fts5(
+                patient_name, notes, diagnoses, medications, clinical_insight_id UNINDEXED
+            );
+
             CREATE TABLE IF NOT EXISTS patient_records (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name  TEXT    NOT NULL,
@@ -95,6 +99,25 @@ def insert_clinical_insight(
         insight_id = cur.lastrowid
         for metric in insight.lab_metrics:
             insert_lab_metric(insight_id, metric, conn)
+
+        patient = conn.execute(
+            "SELECT first_name, last_name FROM patient_records WHERE id = ?",
+            (patient_id,),
+        ).fetchone()
+        if patient:
+            patient_name = f"{patient['first_name']} {patient['last_name']}"
+            conn.execute(
+                """INSERT INTO search_fts (patient_name, notes, diagnoses, medications, clinical_insight_id)
+                   VALUES (?, ?, ?, ?, ?)""",
+                (
+                    patient_name,
+                    insight.notes or "",
+                    ", ".join(insight.diagnoses),
+                    ", ".join(insight.medications),
+                    insight_id,
+                ),
+            )
+
         if own_conn:
             conn.commit()
         return insight_id
