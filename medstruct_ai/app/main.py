@@ -8,6 +8,7 @@ import streamlit as st
 
 from core.audio.transcriber import transcribe_audio
 from core.vision.extractor import extract_clinical_data_from_image
+from medstruct_ai.app.components.charts import render_dashboard
 from medstruct_ai.core.parser import parse_lab_metrics
 from medstruct_ai.core.schemas import ClinicalInsight, LabMetric, PatientRecord
 from medstruct_ai.db.database import get_patient_record, init_db, insert_patient_record
@@ -23,8 +24,7 @@ st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["Dashboard", "Patient Records", "Upload"])
 
 if page == "Dashboard":
-    st.header("Dashboard")
-    st.info("Health charts and risk overview will appear here.")
+    render_dashboard()
 
 elif page == "Patient Records":
     st.header("Patient Records")

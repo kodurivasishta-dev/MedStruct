@@ -43,7 +43,7 @@
 ## Phase 5: User Story 3 - Derived Risk Computation (P2)
 
 - [ ] T013 Derived Risk Logic: Build algorithmic evaluator for lab metrics to compute Low/Medium/High risk summaries in `core/logic.py`. (Nikhil)
-- [ ] T014 Analytical Health Charts: Add local chart visualizations for tracking lab metrics and risk over time in `app/components/`. (Vasishta)
+- [x] T014 Analytical Health Charts: Add local chart visualizations for tracking lab metrics and risk over time in `app/components/`. (Vasishta)
 
 ---
 

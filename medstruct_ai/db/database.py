@@ -127,6 +127,51 @@ def insert_lab_metric(
             conn.close()
 
 
+def get_all_patients() -> list[dict]:
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            "SELECT id, first_name, last_name, dob FROM patient_records ORDER BY last_name"
+        ).fetchall()
+        return [dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
+def get_metrics_for_charts(patient_id: int) -> list[dict]:
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            """SELECT lm.name, lm.value, lm.unit, lm.is_abnormal,
+                      ci.visit_date, ci.overall_risk,
+                      pr.first_name, pr.last_name
+               FROM lab_metrics lm
+               JOIN clinical_insights ci ON ci.id = lm.clinical_insight_id
+               JOIN patient_records pr ON pr.id = ci.patient_id
+               WHERE pr.id = ?
+               ORDER BY ci.visit_date""",
+            (patient_id,),
+        ).fetchall()
+        return [dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
+def get_risk_summary() -> list[dict]:
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            """SELECT overall_risk, COUNT(*) as count
+               FROM clinical_insights
+               WHERE overall_risk IS NOT NULL
+               GROUP BY overall_risk
+               ORDER BY overall_risk"""
+        ).fetchall()
+        return [dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
 def get_patient_record(patient_id: int) -> Optional[PatientRecord]:
     conn = get_connection()
     try:
