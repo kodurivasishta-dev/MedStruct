@@ -27,7 +27,7 @@
 ## Phase 3: User Story 1 - Doctor Uploads Voice Note (P1)
 
 - [ ] T007 Audio Ingestion Pipeline: Write Python wrapper to pass uploaded audio to whisper.cpp and retrieve text in `core/audio/`. (Nikhil)
-- [ ] T008 UI Audio Uploader: Implement Streamlit components for drag-and-drop of audio in `app/main.py`. (Vasishta)
+- [x] T008 UI Audio Uploader: Implement Streamlit components for drag-and-drop of audio in `app/main.py`. (Vasishta)
 - [ ] T009 Link audio text to SQLite visits schema.
 
 ---
