@@ -12,10 +12,6 @@ numpy>=1.26.0
 # PDF Processing
 PyMuPDF>=1.26.0
 
-# OCR
-paddleocr>=3.0.0
-paddlepaddle>=3.0.0
-
 # Image Processing
 Pillow>=10.3.0
 opencv-python>=4.10.0
